@@ -1,0 +1,122 @@
+#include <iostream>
+#include <cstdlib>
+#include<cstring>
+#include<cstdio>
+using namespace std;
+struct AdjListNode{
+    long int d;
+    struct AdjListNode* next;
+};
+struct AdjList{
+    struct AdjListNode *head;
+};
+class Graph{
+ private:
+        long int V;
+        struct AdjList* array;
+    public:
+        Graph(long int V)
+        {
+            this->V = V;
+            array = new AdjList [V];
+            for (long int i = 0; i < V; ++i)
+                array[i].head = NULL;
+        }
+        AdjListNode* newAdjListNode(long int dest){
+            AdjListNode* newNode = new AdjListNode;
+            newNode->d= dest;
+            newNode->next = NULL;
+            return newNode;
+        }
+        void addEdge(long int src,long int dest){
+            AdjListNode* newNode = newAdjListNode(dest);
+            newNode->next = array[src].head;
+            array[src].head = newNode;
+            newNode = newAdjListNode(src);
+            newNode->next = array[dest].head;
+            array[dest].head = newNode;
+        }
+        void printGraph()
+        {
+            long int v;
+            for (v = 0; v < V; ++v)
+            {
+                AdjListNode* pCrawl = array[v].head;
+                cout<<"\n Adjacency list of vertex "<<v<<"\n head ";
+                while (pCrawl)
+                {
+                    cout<<"-> "<<pCrawl->d;
+                    pCrawl = pCrawl->next;
+                }
+                cout<<endl;
+            }
+        }
+   bool isBipartite(){
+    	long int *colArr,col;
+    	colArr=(long int*)malloc(V*sizeof(long int));
+    	for (long int i = 0; i < V; ++i)
+     	   colArr[i] = -1;
+     	for (long int v = 0; v < V; ++v) {
+	    AdjListNode *p = array[v].head;
+	    if(colArr[p->d]==-1)
+	    	colArr[p->d]=1;
+	    col=colArr[p->d];
+            while(p->next) {
+                p=p->next;
+		if(colArr[p->d]==-1)
+                	colArr[p->d] = 1 -col;
+		if(col==colArr[p->d])
+			return false;
+            }
+	}
+    return true;
+   }
+};
+
+int main(){
+	/*int test_case;
+	scanf("%d",&test_case);
+	while(test_case--){
+		long int frnd,pairs;
+		scanf("%ld %ld",&frnd,&pairs);
+		Graph g(frnd);
+		long int G[frnd][frnd];
+		long int i,j;
+		for(i=0;i<frnd;i++){
+			for(j=0;j<frnd;j++){
+				G[i][j]=0;
+			}
+		}
+		while(pairs--){
+			long int f1,f2;
+			scanf("%ld %ld",&f1,&f2);
+			G[f1-1][f2-1]=1;
+			G[f2-1][f1-1]=1;
+			//cout<<"B";
+		}
+		//long int i,j;
+		for(i=0;i<frnd;i++){
+			for(j=0;j<frnd;j++){
+				if(G[i][j]==0 && G[j][i]!=-1 &&(i!=j)){
+					g.addEdge(i,j);
+					G[i][j]=-1;
+				//	cout<<"A";
+				}
+			}
+		}
+		g.printGraph();
+		if(g.isBipartite())
+			printf("Yes\n");
+		else
+			printf("No\n");
+	}*/
+	Graph g(3);
+	g.addEdge(1,2);
+	g.addEdge(0,1);
+	g.addEdge(0,2);
+	if(g.isBipartite())
+			printf("Yes\n");
+		else
+			printf("No\n");
+	return(0);
+}

@@ -1,0 +1,71 @@
+#include<iostream>
+#include<algorithm>
+#include<cstdio>
+#include<cstdlib>
+#include<vector>
+#include<cmath>
+#include<cstring>
+using namespace std;
+long int pr[100005];
+void prime_div(){
+	memset(pr,0,sizeof(pr));
+ 	long int p,i;
+	pr[1]=1;
+    for (p=2; p<=100005; p++) {
+        if (pr[p] ==0){
+            // Update all multiples of p
+            for (i=p;i<=100005;i+=p){
+		if(pr[i]==0)
+                	pr[i]=p;
+	    }
+        }
+    }
+}
+long int least_prime_div(long int val) {
+		return pr[val];
+}
+void update(long int *arr,long int l,long int r){
+	long int i;
+	for(i=l;i<=r;i++){
+		if(arr[i]!=1)
+			arr[i]=arr[i]/(least_prime_div(arr[i]));
+		//cout<<arr[i]<<endl;
+	}
+}
+void get(long int *arr,long int l,long int r){
+	long int res=1;
+	for(long int i=l;i<=r;i++){
+		//cout<<res<<endl;
+		//cout<<arr[i]<<" ";
+		if(arr[i]!=1)
+			res=max(res,least_prime_div(arr[i]));
+	}
+	printf("%ld\n",res);
+}
+int main(){
+	int test_case;
+	scanf("%d",&test_case);
+	prime_div();
+	while(test_case--){
+		long int size,i,query,lft,rght;
+		scanf("%ld %ld",&size,&query);
+		long int *arr;
+		arr=(long int*)malloc(size*sizeof(long int));
+		for(i=0;i<size;i++){
+			scanf("%ld",&arr[i]);
+		}
+		int type;
+		while(query--){
+			scanf("%d %ld %ld",&type,&lft,&rght);
+			switch(type){
+				case 0:update(arr,lft-1,rght-1);
+					break;
+				case 1:get(arr,lft-1,rght-1);
+					break;
+			}
+		}
+		//printf("\n");
+	}
+	return(0);
+}
+		

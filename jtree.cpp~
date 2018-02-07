@@ -1,0 +1,7 @@
+#inlude<iostream>
+#include<algorithm>
+#include<vector>
+#include<cstdlib>
+using nmaespace std;
+int main(){
+	

@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+//using namespace std;
+//long int pwr(long int x,long int n){
+	
+int main(){
+	long long int n,*a,q,s,i;
+	scanf("%lld",&n);
+	a=(long long int*)malloc((n+1)*sizeof(long long int));
+	for(i=0;i<=n;i++){
+		scanf("%lld",&a[i]);
+	}
+	scanf("%lld",&q);
+	while(q--){
+		long long int key,trm;
+		scanf("%lld",&key);
+		s=a[0];
+		s%=786433;
+		for(i=1;i<=n;i++){
+			trm=(a[i]*pow(key,i));
+			trm%=786433;
+			s+=trm;
+		}
+		s%=786433;
+		printf("%lld\n",s);
+	}
+	return(0);
+}
